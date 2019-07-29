@@ -1,13 +1,14 @@
 package com.example.broadcastrecieverdemo;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import static android.content.ContentValues.TAG;
 
 public class MyReceiver extends BroadcastReceiver {
     private static final String TAG = "MyBroadcastReceiver";
@@ -29,12 +30,13 @@ public class MyReceiver extends BroadcastReceiver {
         }
         Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
 
-
-
+        // ASYNCHRONOUS TASK
         final PendingResult pendingResult = goAsync();
         Task asyncTask = new Task(pendingResult, intent);
         asyncTask.execute();
     }
+
+    //ASYNCHRONOUS CLASS TASK
     private static class Task extends AsyncTask<String, Integer, String> {
 
         private final PendingResult pendingResult;

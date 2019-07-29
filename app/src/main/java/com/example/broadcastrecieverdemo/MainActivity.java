@@ -1,5 +1,6 @@
 package com.example.broadcastrecieverdemo;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -17,6 +18,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         receiver = new MyReceiver();
+
+        sendBroadcast(new Intent("com.example.NOTIFY"),Manifest.permission.SEND_SMS);
+
+        IntentFilter filter = new IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED);
+        this.registerReceiver(receiver, filter, Manifest.permission.SEND_SMS,null );
     }
 
     public void onClickDhoka(View view){
@@ -35,8 +41,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        this.unregisterReceiver(receiver);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        this.unregisterReceiver(receiver);
+ //       this.unregisterReceiver(receiver);
     }
 }
